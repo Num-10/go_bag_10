@@ -19,6 +19,8 @@ func init()  {
 func main() {
 	app := gin.New()
 
+	gin.SetMode(conf.AppIni.Mode)
+
 	maxSize := int64(conf.AppIni.MaxMultipartMemory)
 	app.MaxMultipartMemory = maxSize << 20 // 3 MiB
 
