@@ -54,7 +54,7 @@ type Log struct {
 }
 var LogIni Log
 
-func SetUp() {
+func ConfigSetUp() {
 	config, err := ini.Load("conf/app.ini")
 	if err != nil {
 		fmt.Println("load app.ini fail: " + err.Error())

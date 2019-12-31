@@ -1,19 +1,21 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
 	"blog_go/conf"
-	"blog_go/middleware"
 	"blog_go/model"
 	"blog_go/pkg"
 	"blog_go/router"
-	"github.com/gin-gonic/gin"
+	"blog_go/util/cron"
+	"blog_go/middleware"
 )
 
 func init()  {
-	conf.SetUp()
+	conf.ConfigSetUp()
 	pkg.LogSetUp()
-	model.SetUp()
+	model.ModelSetUp()
 	pkg.RedisSetUp()
+	go cron.CronSetup()
 }
 
 func main() {
@@ -30,5 +32,6 @@ func main() {
 	router.Router(app)
 
 	defer model.Db.Close()
+
 	app.Run(":" + conf.AppIni.Port) // 监听并在 0.0.0.0:8888 上启动服务
 }
