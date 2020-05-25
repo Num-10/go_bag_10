@@ -5,6 +5,7 @@ import (
 	"database/sql/driver"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -34,6 +35,20 @@ func (log *MysqlLog) Print (values ...interface{})  {
 
 func LoggerToFile() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		if len(c.Request.Header["Origin"]) > 0 {
+			method := c.Request.Method
+			// 核心处理方式
+			c.Header("Access-Control-Allow-Origin", "*")
+			c.Header("Access-Control-Allow-Credentials", "true")
+			c.Header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token")
+			c.Header("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, DELETE")
+			c.Set("content-type", "application/json")
+			//放行所有OPTIONS方法
+			if method == "OPTIONS" {
+				c.JSON(http.StatusOK, "Options Request!")
+			}
+		}
+
 		CurrentC = c
 		// 开始时间
 		startTime :=  time.Now().UnixNano() / 1e3
