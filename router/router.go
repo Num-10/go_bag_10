@@ -9,7 +9,7 @@ import (
 func Router(router *gin.Engine) {
 	openApi := router.Group("/oo")
 	{
-		openApi.GET("/", controller.Index)
+		openApi.GET("/reolod/:cid", controller.Index)
 		openApi.GET("/list", controller.List)
 		openApi.POST("/login", controller.Login)
 	}

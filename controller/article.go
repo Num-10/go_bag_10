@@ -14,7 +14,11 @@ import (
 )
 
 func Index(c *gin.Context) {
-	RequestColumn(85)
+	id := c.Param("cid")
+	cid, _ := strconv.Atoi(id)
+	RequestColumn(cid)
+
+	time.Sleep(10 * time.Second)
 	e.Json(c, &e.Return{Code: e.SERVICE_SUCCESS})
 }
 
@@ -48,7 +52,7 @@ func RequestColumn(cid int) {
 	}
 	myMap := make(map[string]interface{})
 	json.Unmarshal(respBody, &myMap)
-	fmt.Println("cid: ", cid, " code: ", myMap["code"])
+	fmt.Println(1, myMap)
 	if myMap["code"].(float64) != 0 {
 		return
 	}
@@ -127,6 +131,7 @@ func RequestArticle(cid int) {
 	}
 	myMap := make(map[string]interface{})
 	json.Unmarshal(respBody, &myMap)
+	fmt.Println(2, myMap)
 	if myMap["code"].(float64) != 0 {
 		return
 	}
